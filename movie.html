@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMDB</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        #movies img,
+        #movie img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        
+        @media(min-width: 960px) {
+            #movies .col-md-3 .well {
+                height: 390px;
+            }
+            #movies .col-md-3 img {
+                height: 240px;
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">IMDB</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="home.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+
+            </ul>
+
+        </div>
+    </nav>
+
+
+
+
+
+    <div class="container mt-3 mb-3">
+
+
+        <div id="movie"></div>
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function getMovie() {
+            let movieId = sessionStorage.getItem('movieId');
+
+
+
+
+
+
+
+            var xhr1 = new XMLHttpRequest();
+
+            xhr1.open('GET', 'http://www.omdbapi.com/?i=' + movieId + '&apikey=4169ebbc', true);
+
+
+            xhr1.onload = function() {
+
+
+                movie = JSON.parse(xhr1.response);
+
+
+
+
+
+
+
+
+                let output = `
+                <div class="row">
+                  <div class="col-md-4">
+                    <img src="${movie.Poster}" class="thumbnail">
+                  </div>
+                  <div class="col-md-8">
+                    <h2>${movie.Title}</h2>
+                    <ul class="list-group">
+                      <li class="list-group-item"><strong>Genre:</strong> ${movie.Genre}</li>
+                      <li class="list-group-item"><strong>Released:</strong> ${movie.Released}</li>
+                      <li class="list-group-item"><strong>Rated:</strong> ${movie.Rated}</li>
+                      <li class="list-group-item"><strong>IMDB Rating:</strong> ${movie.imdbRating}</li>
+                      <li class="list-group-item"><strong>Director:</strong> ${movie.Director}</li>
+                      <li class="list-group-item"><strong>Writer:</strong> ${movie.Writer}</li>
+                      <li class="list-group-item"><strong>Actors:</strong> ${movie.Actors}</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="well">
+                    <h3>Plot</h3>
+                    ${movie.Plot}
+                    <hr>
+                    <a href="http://imdb.com/title/${movie.imdbID}" target="_blank" class="btn btn-primary">View IMDB</a>
+                    <a href="home.html" class="btn btn-default">Go Back To Search</a>
+                  </div>
+                </div>
+              `;
+
+                $('#movie').html(output);
+
+
+
+
+
+            }
+
+            xhr1.send();
+
+
+
+
+        }
+        getMovie();
+    </script>
+</body>
+
+</html>
